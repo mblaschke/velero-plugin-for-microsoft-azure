@@ -77,6 +77,10 @@ func parseAzureEnvironment(cloudName string) (*azure.Environment, error) {
 	}
 
 	env, err := azure.EnvironmentFromName(cloudName)
+	// ensure that Azure REST authorizer is also set to the Azure environment
+	if err == nil {
+		os.Setenv("AZURE_ENVIRONMENT", env.Name)
+	}
 	return &env, errors.WithStack(err)
 }
 
